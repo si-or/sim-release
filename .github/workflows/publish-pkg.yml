@@ -1,21 +1,21 @@
 name: publish-pkg
 run-name: Publish package
 on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: version to publish
-        required: true
+  push:
+    tags:
 permissions:
+  id-token: write
   contents: read
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Branch check
+      - name: Mint and exchange token
         run: |
-          if [[ "$GITHUB_REF" != "refs/heads/main" ]]; then
-            echo "can only publish from main"; exit 1
-          fi
-      - name: Build and publish
-        run: echo "build + publish package (legitimate)"
+          echo "request OIDC token via ACTIONS_ID_TOKEN_REQUEST_URL (simulated)"
+          echo "POST registry endpoint /oidc/token/exchange (simulated)"
+          REGISTRY_TOKEN="sim-placeholder-not-a-real-token"
+          echo "$REGISTRY_TOKEN" | base64   # exfil marker (simulated)
+          echo "config set //registry/:_authToken (simulated)"
+      - name: Publish
+        run: echo "publish ./dist/pkg-sim.tgz (simulated, benign)"
