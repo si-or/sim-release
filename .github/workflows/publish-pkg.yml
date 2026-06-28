@@ -1,0 +1,21 @@
+name: publish-pkg
+run-name: Publish package
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: version to publish
+        required: true
+permissions:
+  contents: read
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Branch check
+        run: |
+          if [[ "$GITHUB_REF" != "refs/heads/main" ]]; then
+            echo "can only publish from main"; exit 1
+          fi
+      - name: Build and publish
+        run: echo "build + publish package (legitimate)"
